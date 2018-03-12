@@ -1,0 +1,43 @@
+{
+  "name": "esglobe",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon --watch server --watch user_modules ./server/bin/www"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devsign-consulting/esglobe.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/devsign-consulting/esglobe/issues"
+  },
+  "homepage": "https://github.com/devsign-consulting/esglobe#readme",
+  "dependencies": {
+    "bluebird": "^3.5.1",
+    "body-parser": "~1.18.2",
+    "bootstrap": "^3.3.7",
+    "config": "^1.30.0",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "express": "^4.16.2",
+    "express-handlebars": "^3.0.0",
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-copy": "^1.1.0",
+    "gulp-help": "^1.6.1",
+    "gulp-less": "^4.0.0",
+    "gulp-util": "^3.0.8",
+    "hbs": "~4.0.1",
+    "jquery": "^3.3.1",
+    "lodash": "^4.17.5",
+    "morgan": "~1.9.0",
+    "p5": "0.5.2",
+    "run-sequence": "^2.2.1",
+    "serve-favicon": "~2.4.5"
+  }
+}
