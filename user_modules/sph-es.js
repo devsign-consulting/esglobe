@@ -267,25 +267,6 @@ function show(fn,path){
     playing=true;
 }
 
-
-function drawLon(latlon){
-  loadSphere(0);
-  var xy = latlon2xy(latlon);
-  var x = xy[0];
-
-  setTimeout(function () {
-    var canvas = getcanvas();
-    ctx = canvas.getContext('2d');
-    ctx.strokeStyle="#550a07";
-    ctx.lineWidth=5;
-    ctx.beginPath();
-    ctx.moveTo(x,0);
-    ctx.lineTo(x,canvas.height-1);
-    ctx.stroke();
-  }, 100);
-
-}
-
 function getcanvas(c){
     if(!pg) return false;
     return pg.elt;
@@ -323,12 +304,10 @@ var sph = {
     skip: 1,
     sphereClick: null,
     sphereDrag: null,
-    setDrag: setDrag,
     mouseDown: null,
     mouseUp: null,
     url: url,
     res: res,
-    drawLon: drawLon,
     getcanvas: getcanvas,
     putcanvas: putcanvas,
     reload: null,
@@ -336,7 +315,8 @@ var sph = {
     latlon2xy: latlon2xy,
     xy2latlon: xy2latlon,
     pause:pauseSphere,
-    notify:null
+    notify:null,
+    plugins: {}
 };
 
 
