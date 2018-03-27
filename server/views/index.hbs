@@ -2,7 +2,7 @@
   $(document).ready(function () {
     emitter.subscribe('esglobe:sphereClick', function(data) {
       console.log("emitter: esglobe:sphereClick", data);
-      sph.drawLon(data.latlon)
+      sph.plugins.drawLon(data.latlon)
     });
 
     emitter.subscribe('esglobe:mousePressed', function(data) {

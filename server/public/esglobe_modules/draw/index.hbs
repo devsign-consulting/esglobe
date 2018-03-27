@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="/esglobe_modules/draw/FileSaver.min.js"></script>
+</head>
+<body onload='init()' onunload='finis()'>
+
+<button id="actiondrawing" style="background-color:#f88;font-size:30px" 
+onclick="swapaction(false)">
+Draw on sphere</button>
+<button id="actionorienting"
+ style="background-color:#8f8;font-size:30px;margin-left:40px"
+onclick="swapaction(true)" >
+Orienting sphere</button>
+
+<p>
+<ul>
+<li> Click on buttons above to switch modes between orienting and drawing.</li>
+<li> For text, select the color and font information, activate the click
+  and move the mouse to   the lower left corner where you want the text to
+  start</li> 
+<li> For freehand, just hold the mouse button down while you draw.</li>
+<li> Other drawing modes are not implemented yet</li>
+<li> "undo" removes the last line or line of text</li>
+<li> Use the "Save png" button  to capture the final image
+</ul>
+</p>
+ 
+<p>
+<h4>Line or text color:</h4>
+<button style="background:red" onclick="setcolor('#f00')">red</button>
+<button style="background:yellow" onclick="setcolor('#ff0')">yellow</button>
+<button style="background:green" onclick="setcolor('#0f0')">green</button>
+<button style="background:cyan" onclick="setcolor('#0ff')">cyan</button>
+<button style="background:blue" onclick="setcolor('#00f')">blue</button>
+<button style="background:magenta" onclick="setcolor('#f0f')">magenta</button>
+<button style="background:white" onclick="setcolor('#fff')">white</button>
+<button style="background:black;color:white" onclick="setcolor('#000')">black</button>
+
+<a href='javascript:modal("colorModal");colorinit()'>Hex RGB color code</a>
+<span id='numcol'>#f00</span>
+</p>
+<div id="colorModal" style="display:none" height=500>
+    <h2>Click on a hexagon to see darker versions of the color; click on a square to choose the one you want.</h2>
+
+<p>
+<div id="pointer_div" onclick="point_it(event)" style = "background-image:url('/esglobe_modules/draw/cp.png');width:336px;height:301px;">
+
+<canvas id="darker" width="50" height="300"
+style="position:relative;left:400px" onclick="setcolor2(event)"></canvas>
+</div>
+</p>
+
+<!--
+<p>
+<button onclick="setcolor(document.getElementById('numcol').innerHTML);modal(null)">OK</button>
+</p>
+-->
+
+</div>
+<p>
+<h4>Drawing:</hr>
+<!--
+Style:&nbsp; <select id='linestyle' onchange="Linestyle=getid('linestyle')">
+<option selected>Freehand
+<option>Lines
+<option>Great_circle
+<option>Rectangle
+<option>Line+arrow
+<option>Circle
+</select>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+-->
+Line thickness:&nbsp;
+<input id="linewidth" type="number" min="1" max="20" style="width:5"
+onchange="Linewidth=getid('linewidth')" value="2"/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Brush:&nbsp;
+<select id="brush" onchange="setbrush()">
+<option selected>Pencil
+<option>Flat_Brush
+<!--
+<option>Round_Brush
+<option>Airbrush
+<option>import
+-->
+</select>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Opacity:&nbsp;
+<input id="opacity" style="width:5"
+onchange="Opacity=getid('opacity')" value="1"/>
+</p>
+
+<hr/>
+<p>
+<h4>Text:</h4>
+<textarea id="textbox" rows=5 columns=40>
+</textarea><button onclick="textstart()">Place (lower left) at point where you click
+</button><br/>
+Size: <input id="fontsize" type="number" min="10" max="60" value="25"
+ onchange="Fontsize=getid('fontsize')"/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<select id="font" onchange="Font=getid('font')">
+<option>Times
+<option>Verdana
+<option>Arial
+<option>serif
+<option selected>sans-serif
+</select>
+&nbsp;<select id="fontweight" onchange="Fontweight=getid('fontweight')">
+<option selected>
+<option>bold
+</select>
+&nbsp;<select id="fontslant" onchange="Fontslant=getid('fontslant')">
+<option selected>
+<option>oblique
+</select>
+</p>
+
+<hr/> <p> <button onclick='undo()'style='font-size:20px'>Undo</button>
+<button onclick='saveit()' style='margin-left:20px;font-size:20px'>Save png</button> </p>
+
+<hr/>
+
+<p>
+<form id="drawdata">
+<textarea id="drawlist" rows="20" cols="120" name="drawlist">
+</textarea>
+</form>
+<button onclick="adddrawlist();">Add to drawing list</button>
+</p>
+
+
+</body>
+</html>

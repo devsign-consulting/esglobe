@@ -35,6 +35,7 @@ var paths = {
         'server/config/globe.js',
         'user_modules/emitter.js',
         'user_modules/sph-es.js',
+        'sph_plugins/**/*.js'
       ],
       userModules: [
         'node_modules/@esglobe/**/',
@@ -59,8 +60,14 @@ var paths = {
 
 paths.concatFiles = paths.src.js.vendor.slice();
 
-gulp.task('default', 'builds js and less to public folder', function (cb) {
-  runSequence('app-js', 'vendor-js', 'copyModules', 'less', cb);
+gulp.task('default', 'builds js and less to public folder', ['build'], function (cb) {
+  gulp.watch(paths.src.js.userModules, ['build']);
+  gulp.watch(paths.src.js.app, ['build']);
+  gulp.watch(paths.src.js.server, ['build']);
+});
+
+gulp.task('build', 'builds js and less to public folder', function (cb) {
+    runSequence('app-js', 'vendor-js', 'copyModules', 'less', cb);
 });
 
 gulp.task('app-js', false, [], function () {
