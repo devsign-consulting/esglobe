@@ -40,7 +40,9 @@ var paths = {
             ],
             userModules: [
                 'node_modules/@esglobe/**/',
-                'esglobe_modules/**',
+                'esglobe_modules/**/*.js',
+                'esglobe_modules/**/*.css',
+                'esglobe_modules/**/images/**',
                 'user_modules/**'
             ],
             server: [
@@ -73,7 +75,7 @@ gulp.task('default', 'builds js and less to public folder', ['build'], function 
 });
 
 gulp.task('build', 'builds js and less to public folder', function (cb) {
-    runSequence('app-js', 'vendor-js', 'copyModules', 'less', cb);
+    runSequence('clean', 'app-js', 'vendor-js', 'copyModules', 'copyImages', 'less', cb);
 });
 
 gulp.task('app-js', false, [], function () {
