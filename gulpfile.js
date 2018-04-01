@@ -17,6 +17,8 @@ var argv = require('yargs').argv;
 var _ = require('lodash');
 var fs = require("fs");
 var clean = require('gulp-clean');
+var exec = require('child-process-promise').exec;
+var spawn = require('child-process-promise').spawn;
 
 var env = "test";
 
@@ -65,6 +67,38 @@ var paths = {
     }
 };
 
+var execSpawn = function (cmd, flags) {
+    // converts v1.0.0 to 1.0.0 and removes line breaks
+    var promise = spawn(cmd, flags);
+    var childProcess = promise.childProcess;
+
+    console.log('[spawn] childProcess.pid: ', childProcess.pid);
+    childProcess.stdout.on('data', function (data) {
+        console.log(data.toString());
+    });
+    childProcess.stderr.on('data', function (data) {
+        console.log('[spawn] stderr: ', data.toString());
+    });
+
+    return promise.then(function () {
+        console.log('[spawn] done!');
+        return;
+    })
+        .catch(function (err) {
+            console.error('[spawn] ERROR: ', err);
+            return;
+        });
+};
+
+var getTag = function () {
+    return exec('git describe --tags --abbrev=0')
+        .then(function (res) {
+            // converts v1.0.0 to 1.0.0 and removes line breaks
+            var tag = res.stdout.replace(/(\r\n|\n|\r|[v])/gm, "");
+            return tag;
+        });
+};
+
 paths.concatFiles = paths.src.js.vendor.slice();
 
 gulp.task('default', 'builds js and less to public folder', ['build'], function (cb) {
@@ -80,40 +114,64 @@ gulp.task('build', 'builds js and less to public folder', function (cb) {
 
 gulp.task('app-js', false, [], function () {
     var stream = gulp.src(paths.src.js.app.slice())
-            .pipe(concat(paths.build.app));
+        .pipe(concat(paths.build.app));
 
     return stream.pipe(gulp.dest(paths.build.base + '/javascripts'));
 });
 
 gulp.task('clean', false, [], function () {
-    return gulp.src(paths.build.base, { read: false })
-            .pipe(clean());
+    return gulp.src(paths.build.base, {read: false})
+        .pipe(clean());
+});
+
+gulp.task('docker-build', () => {
+    process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+    var config = require('config');
+    var flags = [
+        'build',
+        `-t`,
+        `${config.name}`,
+        '.'
+    ];
+
+    //return exec(`docker build --build-arg NPM_TOKEN=${config.npm.auth} -t ${config.name} .`, { maxBuffer: 1024 * 500 })
+    return execSpawn('docker', flags)
+        .then(function () {
+            return getTag()
+                .then(function (tag) {
+                    console.log("Docker Tag:", tag);
+                    return exec(`docker tag ${config.name}:latest ${config.name}:${tag}`);
+                });
+        })
+        .catch(err => {
+            console.log(err);
+        });
 });
 
 gulp.task('vendor-js', false, [], function () {
     var stream = gulp.src(paths.src.js.vendor.slice())
-            .pipe(concat(paths.build.vendor));
+        .pipe(concat(paths.build.vendor));
 
     return stream.pipe(gulp.dest(paths.build.base + '/javascripts'));
 });
 
 gulp.task('copyModules', false, [], function () {
     return gulp.src(paths.src.js.userModules)
-            .pipe(gulpCopy(paths.build.base));
+        .pipe(gulpCopy(paths.build.base));
 });
 
 gulp.task('copyImages', false, [], function () {
     return gulp.src(paths.src.images)
-            .pipe(gulpCopy(paths.build.base, { prefix: 1 }));
+        .pipe(gulpCopy(paths.build.base, {prefix: 1}));
 })
 
 // Subtask: Compiles LESS.
 gulp.task('less', false, [], function () {
     return gulp.src(paths.src.less.app)
-            .pipe(less())
-            .on('error', function (error) {
-                console.log(error.toString());
-                this.emit('end');
-            })
-            .pipe(gulp.dest(paths.build.base + '/stylesheets'));
+        .pipe(less())
+        .on('error', function (error) {
+            console.log(error.toString());
+            this.emit('end');
+        })
+        .pipe(gulp.dest(paths.build.base + '/stylesheets'));
 });

@@ -1,6 +1,7 @@
 'use strict';
 
 module.exports = {
+    name: 'esglobe',
     menu: [
         {
             name:  'EsGlobe',
