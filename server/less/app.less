@@ -1,4 +1,5 @@
 @import (less) "../../node_modules/bootstrap/dist/css/bootstrap.css";
+@import (less) "../../node_modules/bootstrap/dist/css/bootstrap-theme.css";
 
 .container-fluid {
   padding: 0px;
@@ -30,6 +31,60 @@ a {
   color: #00B7FF;
 }
 
+#canvas-container #defaultCanvas0 {
+  margin-left: 100px;
+}
+
 .container-fluid.iframe {
   padding: 10px;
+}
+
+.widget {
+  min-height: 80px;
+  width: 50%;
+  position: absolute;
+  overflow: hidden;
+}
+
+.widget-top-left {
+  top:0px;
+  width: 50%;
+  height: 100px;
+}
+
+.widget-top-right {
+  top:0px;
+  width: 50%;
+  height: 100px;
+  left: 50%;
+}
+
+.widget-bottom-left {
+  bottom: 0px;
+  width: 29.2%;
+  height: auto;
+  position: fixed;
+}
+
+
+.widget-bottom-right {
+  bottom:0px;
+  width: 50%;
+  height: auto;
+  width: 29.2%;
+  left: 29.2%;
+  position: fixed;
+}
+
+iframe {
+  border: none;
+  width: 100%;
+}
+
+.margin-top-8px {
+  margin-top: 8px;
+}
+
+.margin-bottom-8px {
+  margin-bottom: 8px;
 }

@@ -24,6 +24,10 @@ module.exports = {
                 {
                     name: 'Draw meridian',
                     module: 'meridian'
+                },
+                {
+                    name: 'Widget Demo',
+                    module: 'widgetDemo'
                 }
             ]
         }

@@ -1,19 +1,19 @@
 <script>
   $(document).ready(function () {
-    emitter.subscribe('esglobe:sphereClick', function(data) {
+    sph.emitter.subscribe('esglobe:sphereClick', function(data) {
       console.log("emitter: esglobe:sphereClick", data);
       sph.plugins.drawLon(data.latlon)
     });
 
-    emitter.subscribe('esglobe:mousePressed', function(data) {
+    sph.emitter.subscribe('esglobe:mousePressed', function(data) {
       console.log("emitter: esglobe:mousePressed", data);
     });
 
-    emitter.subscribe('esglobe:mouseDragged', function(data) {
+    sph.emitter.subscribe('esglobe:mouseDragged', function(data) {
       // console.log("emitter: esglobe:mouseDragged", data);
     });
 
-    emitter.subscribe('esglobe:mouseReleased', function(data) {
+    sph.emitter.subscribe('esglobe:mouseReleased', function(data) {
       console.log("emitter: esglobe:mouseReleased", data);
     });
   });
@@ -22,7 +22,11 @@
 {{includeModules menu}}
 
 <div class="container-fluid">
-  <div id="canvas-container" class="col-xs-7">
+  <div id="canvas-container" class="col-xs-7 no-gutter">
+    <div class="widget widget-top-left" id="topLeft"></div>
+    <div class="widget widget-top-right" id="topRight"></div>
+    <div class="widget widget-bottom-left" id="bottomLeft"></div>
+    <div class="widget widget-bottom-right" id="bottomRight"></div>
   </div>
   <div class="col-xs-5 container-input no-gutter">
     <nav class="navbar navbar-default">

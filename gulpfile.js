@@ -39,7 +39,8 @@ var paths = {
       ],
       userModules: [
         'node_modules/@esglobe/**/',
-        'esglobe_modules/**'
+        'esglobe_modules/**',
+        'user_modules/**'
       ],
       server: [
         "server/**/*.js",
@@ -64,6 +65,7 @@ gulp.task('default', 'builds js and less to public folder', ['build'], function 
   gulp.watch(paths.src.js.userModules, ['build']);
   gulp.watch(paths.src.js.app, ['build']);
   gulp.watch(paths.src.js.server, ['build']);
+  gulp.watch(paths.src.less.app, ['build']);
 });
 
 gulp.task('build', 'builds js and less to public folder', function (cb) {

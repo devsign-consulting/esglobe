@@ -3,7 +3,12 @@
 <head>
   <link rel='stylesheet' href='/stylesheets/app.css' />
   <script src="/javascripts/vendor.js"></script>
-  <script src="/esglobe_modules/{{moduleName}}/index.js"></script>
+
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="../css/app.css">
+  <script src="../widgets/{{position}}/index.js"></script>
+
+
   <style>
     body {
       background-image: none !important;
@@ -15,12 +20,9 @@
 <script>
   var sph = window.sph;
 </script>
-<div class="container-fluid iframe">
-  <div class="row">
-    <div class="col-xs-12">
-      {{{body}}}
-    </div>
-  </div>
+
+<div class="container">
+  {{{body}}}
 </div>
 
 </body>

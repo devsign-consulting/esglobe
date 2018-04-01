@@ -1,7 +1,7 @@
 (function(exports){
   exports.getGlobeConfig = function(){
     return {
-        sz: 950,
+        sz: 900,
         w: 450,
         scalefac: 1.06,
         res: [2048, 1024]
@@ -19,6 +19,13 @@ class EventEmitter {
       event.forEach(fn => {
         fn.call(null, data);
       });
+    }
+
+    const eventAll = this.events["*"];
+    if (eventAll) {
+        eventAll.forEach(fn => {
+            fn.call(null, data);
+        });
     }
   }
 
@@ -332,7 +339,7 @@ function pauseSphere(){
     if(vid){
         if(vid.paused) vid.play(); else vid.pause();
         vid.paused= !vid.paused
-    };
+    }
 }
 
 var sph = {
@@ -355,29 +362,25 @@ var sph = {
     xy2latlon: xy2latlon,
     pause:pauseSphere,
     notify:null,
+    emitter: emitter,
     plugins: {}
 };
 
 
 
-(function () {
-    function drawLon(latlon){
-        loadSphere(0);
-        var xy = latlon2xy(latlon);
-        var x = xy[0];
+sph.plugins.drawLon = function (latlon){
+    loadSphere(0);
+    var xy = latlon2xy(latlon);
+    var x = xy[0];
 
-        setTimeout(function () {
-            var canvas = sph.getcanvas();
-            ctx = canvas.getContext('2d');
-            ctx.strokeStyle="#20a81c";
-            ctx.lineWidth=5;
-            ctx.beginPath();
-            ctx.moveTo(x,0);
-            ctx.lineTo(x,canvas.height-1);
-            ctx.stroke();
-        }, 100);
-
-    }
-
-    sph.plugins.drawLon = drawLon;
-})();
+    setTimeout(function () {
+        var canvas = sph.getcanvas();
+        ctx = canvas.getContext('2d');
+        ctx.strokeStyle="#20a81c";
+        ctx.lineWidth=5;
+        ctx.beginPath();
+        ctx.moveTo(x,0);
+        ctx.lineTo(x,canvas.height-1);
+        ctx.stroke();
+    }, 100);
+};
