@@ -1,1 +1,0 @@
-var sph=parent.sph;
