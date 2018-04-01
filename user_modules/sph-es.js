@@ -11,7 +11,7 @@ var scalefac=esglobe.scalefac;
 var res = esglobe.res;
 
 
-var url = "images/earth2048.jpg";
+var url = esglobe.image;
 
 var sph;
 
@@ -100,6 +100,10 @@ function loadSphere(j) {
     if(j==0 || movie){
         loadImage(convfn(url,j+1), checkSphere, stopSphere);
     }
+}
+
+function resetSphere() {
+    show(esglobe.image)
 }
 
 var x0=0;
@@ -316,6 +320,7 @@ var sph = {
     xy2latlon: xy2latlon,
     pause:pauseSphere,
     notify:null,
+    reset: resetSphere,
     emitter: emitter,
     plugins: {}
 };

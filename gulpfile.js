@@ -2,7 +2,7 @@
 
 var gulp = require("gulp");
 gulp = require('gulp-help')(gulp, {
-  hideDepsMessage: true
+    hideDepsMessage: true
 });
 
 var path = require('path');
@@ -16,88 +16,102 @@ var runSequence = require('run-sequence').use(gulp);
 var argv = require('yargs').argv;
 var _ = require('lodash');
 var fs = require("fs");
+var clean = require('gulp-clean');
 
 var env = "test";
 
 // Paths
 var paths = {
-  src: {
-    package: 'package.json',
-    js: {
-      vendor: [
-        'node_modules/jquery/dist/jquery.js',
-        'node_modules/bootstrap/dist/js/bootstrap.js',
-        'node_modules/p5/lib/p5.min.js',
-        'node_modules/p5/lib/addons/p5.dom.js',
-        'user_modules/esmodule.js',
-      ],
-      app: [
-        'server/config/globe.js',
-        'user_modules/emitter.js',
-        'user_modules/sph-es.js',
-        'sph_plugins/**/*.js'
-      ],
-      userModules: [
-        'node_modules/@esglobe/**/',
-        'esglobe_modules/**',
-        'user_modules/**'
-      ],
-      server: [
-        "server/**/*.js",
-        "!server/public/*"
-      ]
+    src: {
+        package: 'package.json',
+        js: {
+            vendor: [
+                'node_modules/jquery/dist/jquery.js',
+                'node_modules/bootstrap/dist/js/bootstrap.js',
+                'node_modules/p5/lib/p5.min.js',
+                'node_modules/p5/lib/addons/p5.dom.js',
+                'user_modules/esmodule.js',
+            ],
+            app: [
+                'server/config/globe.js',
+                'user_modules/emitter.js',
+                'user_modules/sph-es.js',
+                'sph_plugins/**/*.js'
+            ],
+            userModules: [
+                'node_modules/@esglobe/**/',
+                'esglobe_modules/**/*.js',
+                'user_modules/**'
+            ],
+            server: [
+                "server/**/*.js",
+                "!server/public/*"
+            ]
+        },
+        images: [
+            'client/images/**',
+        ],
+        less: {
+            app: 'server/less/app.less'
+        }
     },
-    less: {
-      app: 'server/less/app.less'
+    build: {
+        base: 'server/public',
+        tmp: 'tmp',
+        app: 'app.js',
+        vendor: 'vendor.js'
     }
-  },
-  build: {
-    base: 'server/public',
-    tmp: 'tmp',
-    app: 'app.js',
-    vendor: 'vendor.js'
-  }
 };
 
 paths.concatFiles = paths.src.js.vendor.slice();
 
 gulp.task('default', 'builds js and less to public folder', ['build'], function (cb) {
-  gulp.watch(paths.src.js.userModules, ['build']);
-  gulp.watch(paths.src.js.app, ['build']);
-  gulp.watch(paths.src.js.server, ['build']);
-  gulp.watch(paths.src.less.app, ['build']);
+    gulp.watch(paths.src.js.userModules, ['build']);
+    gulp.watch(paths.src.js.app, ['build']);
+    gulp.watch(paths.src.js.server, ['build']);
+    gulp.watch(paths.src.less.app, ['build']);
 });
 
 gulp.task('build', 'builds js and less to public folder', function (cb) {
-    runSequence('app-js', 'vendor-js', 'copyModules', 'less', cb);
+    runSequence('clean', 'app-js', 'vendor-js', 'copyModules', 'copyImages', 'less', cb);
 });
 
 gulp.task('app-js', false, [], function () {
-  var stream = gulp.src(paths.src.js.app.slice())
-      .pipe(concat(paths.build.app));
+    var stream = gulp.src(paths.src.js.app.slice())
+            .pipe(concat(paths.build.app));
 
-  return stream.pipe(gulp.dest(paths.build.base + '/javascripts'));
+    return stream.pipe(gulp.dest(paths.build.base + '/javascripts'));
+});
+
+gulp.task('clean', false, [], function () {
+    return gulp.src(paths.build.base, { read: false })
+            .pipe(clean());
 });
 
 gulp.task('vendor-js', false, [], function () {
-  var stream = gulp.src(paths.src.js.vendor.slice())
-      .pipe(concat(paths.build.vendor));
+    var stream = gulp.src(paths.src.js.vendor.slice())
+            .pipe(concat(paths.build.vendor));
 
-  return stream.pipe(gulp.dest(paths.build.base + '/javascripts'));
+    return stream.pipe(gulp.dest(paths.build.base + '/javascripts'));
 });
 
 gulp.task('copyModules', false, [], function () {
-  return gulp.src(paths.src.js.userModules)
-      .pipe(gulpCopy(paths.build.base));
+    return gulp.src(paths.src.js.userModules)
+            .pipe(gulpCopy(paths.build.base));
 });
+
+gulp.task('copyImages', false, [], function () {
+    return gulp.src(paths.src.images)
+            .pipe(gulpCopy(paths.build.base, { prefix: 1 }));
+})
 
 // Subtask: Compiles LESS.
 gulp.task('less', false, [], function () {
-  return gulp.src(paths.src.less.app)
-      .pipe(less())
-      .on('error', function (error) {
-        console.log(error.toString());
-        this.emit('end');
-      })
-      .pipe(gulp.dest(paths.build.base + '/stylesheets'));
+    return gulp.src(paths.src.less.app)
+            .pipe(less())
+            .on('error', function (error) {
+                console.log(error.toString());
+                this.emit('end');
+            })
+            .pipe(gulp.dest(paths.build.base + '/stylesheets'));
 });

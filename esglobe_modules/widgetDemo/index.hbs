@@ -1,11 +1,35 @@
-<button class="btn btn-default" id="demoButton">Bootstrap Button</button>
+<h1>Widget Demo</h1>
+<button class="btn btn-default" id="demoButton">Module Button (press to send data to widgets)</button>
 <div id="moduleMsg"></div>
 
 <div class="row margin-top-8px">
   <div class="col-xs-6">
     <div class="form-group">
-      <label>Progress</label>
+      <label>Progress (change me)</label>
       <input type="number" value="25" class="form-control" min="0" max="100" step="5" id="progressBar">
     </div>
   </div>
 </div>
+
+<div class="row margin-top-8px">
+  <div class="col-xs-6">
+    <div class="form-group">
+      <label>Load data from Backend</label>
+      <button class="btn btn-primary form-control" id="loadDataButton">Load Data</button>
+      <div id="dataOut"></div>
+    </div>
+  </div>
+</div>
+
+
+<div class="row margin-top-8px">
+  <div class="col-xs-6">
+    <div class="form-group">
+      <label>Execute Python Script, and Update Globe</label>
+      <button class="btn btn-primary form-control" id="loadPythonButton">Run Python Script</button>
+      <div id="dataOut2"></div>
+    </div>
+  </div>
+</div>
+
+
