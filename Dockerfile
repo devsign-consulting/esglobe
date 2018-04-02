@@ -12,8 +12,11 @@ COPY package.json /usr/src/app/
 # Install the production node modules.
 RUN npm install --production
 
-COPY server /usr/src/app/
+COPY server /usr/src/app/server
+COPY esglobe_modules /usr/src/app/esglobe_modules
+COPY sph_plugins /usr/src/app/sph_plugins
+COPY user_modules /usr/src/app/user_modules
 
-CMD ["npm", "start"]
+CMD ["node", "./server/bin/www"]
 
 

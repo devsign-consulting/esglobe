@@ -8,13 +8,17 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/python-test', function (req, res, next) {
-    const path = `${__dirname}./../scripts/hello_world.py`;
+    const path = `${__dirname}/../scripts`;
     var PythonShell = require('python-shell');
-
-    PythonShell.run(path, function (err, results) {
-        if (err) throw err;
+    console.log("=== path ===", __dirname);
+    PythonShell.run('hello_world.py', { scriptPath: path }, function (err, results) {
+        if (err) {
+            console.log("===err ===", err);
+            res.status(500).send(err);
+        }
         res.send(results);
     });
+
 });
 
 module.exports = router;

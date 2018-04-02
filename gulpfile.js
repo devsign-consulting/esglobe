@@ -124,9 +124,10 @@ gulp.task('clean', false, [], function () {
         .pipe(clean());
 });
 
-gulp.task('docker-build', () => {
-    process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+gulp.task('docker-build', false, ['build'], () => {
+    process.env.NODE_CONFIG_DIR = './server/config';
     var config = require('config');
+
     var flags = [
         'build',
         `-t`,
@@ -146,6 +147,18 @@ gulp.task('docker-build', () => {
         .catch(err => {
             console.log(err);
         });
+});
+
+gulp.task('docker-run', false, ['build'], () => {
+    process.env.NODE_CONFIG_DIR = './server/config';
+    var config = require('config');
+    return exec(`docker stop ${config.name}`)
+        .then(() => {
+            return exec(`docker run -d --rm -p 3000:3000 --name ${config.name} ${config.name}:latest`);
+        })
+        .catch(() => {
+            return exec(`docker run -d --rm -p 3000:3000 --name ${config.name} ${config.name}:latest`);
+        })
 });
 
 gulp.task('vendor-js', false, [], function () {
