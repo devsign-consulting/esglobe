@@ -106,6 +106,7 @@ gulp.task('default', 'builds js and less to public folder', ['build'], function 
     gulp.watch(paths.src.js.app, ['build']);
     gulp.watch(paths.src.js.server, ['build']);
     gulp.watch(paths.src.less.app, ['build']);
+    console.log("watching folders for changes... please start the web server using npm start in a separate terminal window")
 });
 
 gulp.task('build', 'builds js and less to public folder', function (cb) {
