@@ -14,9 +14,24 @@
 <div class="row margin-top-8px">
   <div class="col-xs-6">
     <div class="form-group">
-      <label>Load data from Backend</label>
+      <label>Load data from Custom Backend</label>
       <button class="btn btn-primary form-control" id="loadDataButton">Load Data</button>
       <div id="dataOut"></div>
+    </div>
+  </div>
+</div>
+
+<div class="row margin-top-8px">
+  <div class="col-xs-9">
+    <div class="form-group">
+      <label>Load Resource (try "mp.png", or local path like "/tmp/image.png")</label>
+      <input type="text" class="form-control" id="loadResourceText">
+    </div>
+  </div>
+  <div class="col-xs-3">
+    <div class="form-group">
+      <label class="clear">&nbsp;</label>
+      <button type="button" class="form-control" id="loadResource">Load</button>
     </div>
   </div>
 </div>
@@ -32,4 +47,11 @@
   </div>
 </div>
 
+<div id="example_form"></div>
+<br/><br/>
+<div class="row">
+  <div class="col-xs-12">
+    <div id="message" style='display:none;' class="alert alert-success"></div>
+  </div>
+</div>
 

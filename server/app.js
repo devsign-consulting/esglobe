@@ -10,14 +10,19 @@ var _ = require('lodash');
 
 var index = require('./routes/index');
 var moduleHtml = require('./routes/module-html');
+var script = require('./routes/script');
+var formBuilder = require('./routes/formBuilder');
+
 
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 
-app.engine('.hbs', exphbs({ layoutsDir: './server/views/layouts/', defaultLayout: 'main', extname: '.hbs'}));
-app.set('view engine', '.hbs');
+var handlebars = require('./views/helpers/handlebars')(exphbs);
+
+app.engine('html', handlebars.engine);
+app.set('view engine', 'html');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -33,11 +38,16 @@ glob.sync('esglobe_modules/**/routes/*.js').forEach(function(file) {
     const moduleName = fileSplit[fileSplit.indexOf('routes') - 1];
     var dynamicController = require(`../${file}`);
     app.use(`/api/${moduleName}`, dynamicController);
+    app.use(`/api/${moduleName}/script`, function(req, res, next) {
+        req.moduleName = moduleName;
+        next();
+    }, script);
 });
 
 
 app.use('/', index);
 app.use('/module-html', moduleHtml);
+app.use('/form-builder', formBuilder);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

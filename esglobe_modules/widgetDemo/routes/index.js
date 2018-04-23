@@ -18,7 +18,6 @@ router.get('/python-test', function (req, res, next) {
         }
         res.send(results);
     });
-
 });
 
 module.exports = router;

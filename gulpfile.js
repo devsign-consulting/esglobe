@@ -29,6 +29,8 @@ var paths = {
         js: {
             vendor: [
                 'node_modules/jquery/dist/jquery.js',
+                'node_modules/jquery-validation/dist/jquery.validate.js',
+                'node_modules/lodash/lodash.js',
                 'node_modules/bootstrap/dist/js/bootstrap.js',
                 'node_modules/p5/lib/p5.min.js',
                 'node_modules/p5/lib/addons/p5.dom.js',
@@ -38,13 +40,15 @@ var paths = {
                 'server/config/globe.js',
                 'user_modules/emitter.js',
                 'user_modules/sph-es.js',
+                'user_modules/formBuilder.js',
                 'sph_plugins/**/*.js'
             ],
             userModules: [
                 'node_modules/@esglobe/**/',
                 'esglobe_modules/**/*.js',
+                'esglobe_modules/**/*.json',
                 'esglobe_modules/**/*.css',
-                'esglobe_modules/**/images/**',
+                'esglobe_modules/**/graphics/**',
                 'user_modules/**'
             ],
             server: [
@@ -104,7 +108,7 @@ paths.concatFiles = paths.src.js.vendor.slice();
 gulp.task('default', 'builds js and less to public folder', ['build'], function (cb) {
     gulp.watch(paths.src.js.userModules, ['build']);
     gulp.watch(paths.src.js.app, ['build']);
-    gulp.watch(paths.src.js.server, ['build']);
+    // gulp.watch(paths.src.js.server, ['build']);
     gulp.watch(paths.src.less.app, ['build']);
     console.log("watching folders for changes... please start the web server using npm start in a separate terminal window")
 });

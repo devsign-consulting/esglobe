@@ -1,5 +1,7 @@
 $(document).ready(function (){
-    var sph = parent.sph;
+    const esglobe = new Esglobe();
+    var sph = esglobe.getSph();
+
     $('#demoButton').click(function () {
         sph.emitter.emit("demoButtonClicked", { message: `this is a demo message from the main module ${new Date().getTime()}` });
     });
@@ -22,14 +24,27 @@ $(document).ready(function (){
     });
 
     $('#loadPythonButton').click(function () {
-        $.get('/api/widgetDemo/python-test', function (data) {
-            console.log("=== data ==", data);
-            sph.show('./esglobe_modules/widgetDemo/images/' + data[0]);
-        });
+        esglobe.runScript('hello_world.py', { firstName: 'Tony', lastName: 'Stark'}, function(data) {
+            $('#dataOut2').html(data.results.message);
+            esglobe.show(data.results.image);
+        })
     });
 
-    esglobeLoadWidget('topLeft');
-    esglobeLoadWidget('topRight');
-    esglobeLoadWidget('bottomLeft');
-    esglobeLoadWidget('bottomRight');
+    $('#loadResource').click(function () {
+        const resource = $('#loadResourceText').val();
+        console.log("=== load resource ====", resource);
+        esglobe.show(resource);
+    });
+
+    esglobe.loadWidget('topLeft');
+    esglobe.loadWidget('topRight');
+    esglobe.loadWidget('bottomLeft');
+    esglobe.loadWidget('bottomRight');
+
+    esglobe.loadForm('example_form', function(data) {
+        console.log("=== form result ===", data);
+        $('#message').show();
+        $('#message').html(data.results.message);
+        esglobe.show(data.results.image);
+    });
 });

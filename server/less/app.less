@@ -1,6 +1,8 @@
 @import (less) "../../node_modules/bootstrap/dist/css/bootstrap.css";
 @import (less) "../../node_modules/bootstrap/dist/css/bootstrap-theme.css";
 
+@required: #740000;
+
 .container-fluid {
   padding: 0px;
 }
@@ -37,6 +39,7 @@ a {
 
 .container-fluid.iframe {
   padding: 10px;
+  overflow-x: hidden;
 }
 
 .widget {
@@ -87,4 +90,14 @@ iframe {
 
 .margin-bottom-8px {
   margin-bottom: 8px;
+}
+
+label.error {
+  margin-top: 4px;
+  color: @required;
+  font-weight: normal;
+}
+
+.required {
+  color: @required;
 }

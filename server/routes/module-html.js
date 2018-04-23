@@ -29,6 +29,11 @@ router.get('/:moduleName/routes/*', function(req, res, next) {
     res.sendFile(`./esglobe_modules/${req.params.moduleName}/routes/${req.params[0]}`, { root: './server/public'});
 });
 
+// allows esglobe_modules routes to load js
+router.get('/:moduleName/forms/*', function(req, res, next) {
+    res.sendFile(`./esglobe_modules/${req.params.moduleName}/forms/${req.params[0]}`, { root: './server/public'});
+});
+
 router.get('/:moduleName/widgets/:position', function(req, res, next) {
     const templateName = 'index';
     const position = req.params.position;
@@ -36,9 +41,9 @@ router.get('/:moduleName/widgets/:position', function(req, res, next) {
     const path2 = `node_modules/@esglobe/${req.params.moduleName}/widgets/${position}/${templateName}`;
     let template = null;
 
-    if (fs.existsSync(`${path}.hbs`)) {
+    if (fs.existsSync(`${path}.html`)) {
         template = path;
-    } else if (fs.existsSync(`${path2}.hbs`)) {
+    } else if (fs.existsSync(`${path2}.html`)) {
         template = path2
     }
 
@@ -59,9 +64,9 @@ router.get('/:moduleName/:templateName?', function(req, res, next) {
     const path2 = `node_modules/@esglobe/${req.params.moduleName}/${templateName}`;
     let template = null;
 
-    if (fs.existsSync(`${path}.hbs`)) {
+    if (fs.existsSync(`${path}.html`)) {
         template = path;
-    } else if (fs.existsSync(`${path2}.hbs`)) {
+    } else if (fs.existsSync(`${path2}.html`)) {
         template = path2
     }
 
